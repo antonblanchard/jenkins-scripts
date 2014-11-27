@@ -31,22 +31,30 @@ if [ -z "$JENKINS_HOME" ]; then
 	git clone $BINUTILS_GIT git://sourceware.org/git/binutils-gdb.git
 	git clone $GCC_GIT git://gcc.gnu.org/git/gcc.git
 	git clone $LINUX_GIT git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+else
+	function finish {
+		rm -rf "$WORKSPACE/binutils.build"
+		rm -rf "$WORKSPACE/gcc.build"
+		rm -rf "$WORKSPACE/install"
+		rm -rf "$WORKSPACE/linux.build"
+	}
+	trap finish EXIT
 fi
 
-mkdir "$WORKSPACE/binutils.build"
+mkdir -p "$WORKSPACE/binutils.build"
 cd "$WORKSPACE/binutils.build"
 ../binutils-gdb/configure --disable-gdb --disable-libdecnumber --disable-readline --disable-sim --prefix="$WORKSPACE/install" --target=$target
 make $PARALLEL
 make install
 
-mkdir "$WORKSPACE/gcc.build"
+mkdir -p "$WORKSPACE/gcc.build"
 cd "$WORKSPACE/gcc.build"
 ../gcc/configure --prefix="$WORKSPACE/install" --disable-multilib --disable-bootstrap --enable-languages=c --target=$target
 # We don't need libgcc for building the kernel, so keep it simple
 make all-gcc $PARALLEL
 make install-gcc
 
-mkdir "$WORKSPACE/linux.build"
+mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 export CROSS_COMPILE="$WORKSPACE/install/bin/${target}-"
