@@ -6,7 +6,6 @@ if [ -n "$BIG_ENDIAN" ]; then
 else
 	target=powerpc64le-linux
 	linux_target=pseries_le_defconfig
-	qemu_testcase=qemu_ubuntu_test.py
 fi
 
 # Optional git trees to refer to save bandwidth
