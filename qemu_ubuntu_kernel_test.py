@@ -5,7 +5,7 @@ from qemu_ubuntu_test import qemu_ubuntu_test
 
 
 if len(sys.argv) != 2:
-	print "Usage: kernel_test.py kernel"
+	print "Usage: qemu_ubuntu_kernel_test.py kernel"
 	sys.exit(1)
 
 kernel=sys.argv[1]

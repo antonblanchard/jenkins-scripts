@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 OPTS="--target-list=ppc64-softmmu --enable-fdt"
+BINARY="ppc64-softmmu/qemu-system-ppc64"
 
 PARALLEL=-j$(($(nproc) * 2))
 
@@ -18,4 +19,4 @@ cd "$WORKSPACE/qemu.build"
 $WORKSPACE/qemu/configure $OPTS
 make $PARALLEL
 
-$WORKSPACE/jenkins-scripts/qemu_ubuntu_qemu_test.py
+$WORKSPACE/jenkins-scripts/qemu_ubuntu_qemu_test.py $WORKSPACE/qemu.build/$BINARY
