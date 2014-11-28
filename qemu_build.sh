@@ -19,4 +19,5 @@ cd "$WORKSPACE/qemu.build"
 $WORKSPACE/qemu/configure $OPTS
 make $PARALLEL
 
+cd $WORKSPACE
 $WORKSPACE/jenkins-scripts/qemu_ubuntu_qemu_test.py $WORKSPACE/qemu.build/$BINARY

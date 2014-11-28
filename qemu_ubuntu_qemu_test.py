@@ -12,10 +12,10 @@ qemu=sys.argv[1]
 
 print "Testing PAPR virtual IO"
 q = qemu_ubuntu_test(qemu=qemu, kvm=False)
-run_tests(q, timeout=300)
+q.simple_test(q, timeout=300)
 q.close()
 
 print "Testing virtio virtual IO"
 q = qemu_ubuntu_test(qemu=qemu, kvm=False, virtio=True)
-run_tests(q, timeout=300)
+q.simple_test(q, timeout=300)
 q.close()
