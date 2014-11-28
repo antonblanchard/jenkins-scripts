@@ -17,3 +17,5 @@ cd "$WORKSPACE/qemu.build"
 
 $WORKSPACE/qemu/configure $OPTS
 make $PARALLEL
+
+$WORKSPACE/jenkins-scripts/qemu_ubuntu_qemu_test.py
