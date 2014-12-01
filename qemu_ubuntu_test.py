@@ -17,25 +17,41 @@ class qemu_ubuntu_test(qemu_simple_test):
 			urllib.urlretrieve(imageurl, image)
 
 
-	def simple_test(self, timeout=300):
-		# boot it
-		self.start()
+	def wait_for_login(self, timeout=300):
 		self.expectcheck('ubuntu login:', timeout=timeout)
 
+
+	def wait_for_prompt(self, timeout=300):
+		self.child.expect('ubuntu@ubuntu', timeout=timeout)
+
+
+	def boot(self, timeout=300):
+		# boot it
+		self.start(timeout=timeout)
+		self.wait_for_login(timeout=timeout)
+
+
+	def login(self, timeout=300):
 		# log in
 		self.child.sendline('ubuntu')
 		self.child.expect('Password:', timeout=timeout)
 		self.child.sendline('passw0rd')
-		self.child.expect('ubuntu@ubuntu', timeout=timeout)
+		self.wait_for_prompt(timeout=timeout)
+
+
+	def simple_test(self, timeout=300):
+		self.boot(timeout=timeout)
+		self.login(timeout=timeout)
 
 		# quick network test
 		self.child.sendline('ping -W 1 -c 1 10.0.2.2')
 		self.child.expect('1 received', timeout=timeout)
-		self.child.expect('ubuntu@ubuntu', timeout=timeout)
+		self.wait_for_prompt(timeout=timeout)
 
 		# more involved network test
 		self.child.sendline('wget http://ozlabs.org/~anton/datafile')
-		self.child.expect('ubuntu@ubuntu', timeout=timeout)
+		self.wait_for_prompt(timeout=timeout)
+
 		self.child.sendline('md5sum datafile')
 		self.child.expect('2a9981457d46bf85eba3f81728159f84', timeout=timeout)
-		self.child.expect('ubuntu@ubuntu', timeout=timeout)
+		self.wait_for_prompt(timeout=timeout)
