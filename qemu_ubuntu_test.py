@@ -27,7 +27,7 @@ class qemu_ubuntu_test(qemu_simple_test):
 
 	def boot(self, timeout=300):
 		# boot it
-		self.start(timeout=timeout)
+		self.start()
 		self.wait_for_login(timeout=timeout)
 
 
