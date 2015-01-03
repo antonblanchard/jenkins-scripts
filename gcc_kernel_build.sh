@@ -15,8 +15,6 @@ LINUX_GIT=--reference=$HOME/anton/linux.junk
 
 PARALLEL=-j$(($(nproc) * 2))
 
-ROOT=$(dirname $0)
-
 if [ -z "$JENKINS_HOME" ]; then
 	WORKSPACE=$(mktemp -d)
 
@@ -63,5 +61,5 @@ make $PARALLEL zImage
 make $PARALLEL modules
 
 if [ -n "$qemu_testcase" ]; then
-	$ROOT/$qemu_testcase vmlinux
+	$WORKSPACE/$qemu_testcase vmlinux
 fi
