@@ -8,35 +8,13 @@ else
 	linux_target=pseries_le_defconfig
 fi
 
-# Optional git trees to refer to save bandwidth
-BINUTILS_GIT=--reference=$HOME/binutils-gdb
-GCC_GIT=--reference=$HOME/anton/gcc
-LINUX_GIT=--reference=$HOME/anton/linux.junk
-
-PARALLEL=-j$(($(nproc) * 2))
-
-if [ -z "$JENKINS_HOME" ]; then
-	WORKSPACE=$(mktemp -d)
-
-	function finish {
-		rm -rf "$WORKSPACE"
-	}
-	trap finish EXIT
-
-	cd "$WORKSPACE"
-
-	git clone $BINUTILS_GIT git://sourceware.org/git/binutils-gdb.git
-	git clone $GCC_GIT git://gcc.gnu.org/git/gcc.git
-	git clone $LINUX_GIT git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-else
-	function finish {
-		rm -rf "$WORKSPACE/binutils.build"
-		rm -rf "$WORKSPACE/gcc.build"
-		rm -rf "$WORKSPACE/install"
-		rm -rf "$WORKSPACE/linux.build"
-	}
-	trap finish EXIT
-fi
+function finish {
+	rm -rf "$WORKSPACE/binutils.build"
+	rm -rf "$WORKSPACE/gcc.build"
+	rm -rf "$WORKSPACE/install"
+	rm -rf "$WORKSPACE/linux.build"
+}
+trap finish EXIT
 
 mkdir -p "$WORKSPACE/binutils.build"
 cd "$WORKSPACE/binutils.build"
