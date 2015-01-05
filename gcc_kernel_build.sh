@@ -8,6 +8,8 @@ else
 	linux_target=pseries_le_defconfig
 fi
 
+PARALLEL=-j$(($(nproc) * 2))
+
 function finish {
 	rm -rf "$WORKSPACE/binutils.build"
 	rm -rf "$WORKSPACE/gcc.build"
