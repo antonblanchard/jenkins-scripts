@@ -8,8 +8,6 @@ fi
 
 PARALLEL=-j$(($(nproc) * 2))
 
-ROOT=$(dirname $0)
-
 function finish {
 	rm -rf "$WORKSPACE/linux.build"
 }

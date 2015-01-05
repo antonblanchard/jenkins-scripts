@@ -5,8 +5,6 @@ BINARY="ppc64-softmmu/qemu-system-ppc64"
 
 PARALLEL=-j$(($(nproc) * 2))
 
-ROOT=$(dirname $0)
-
 function finish {
 	rm -rf "$WORKSPACE/qemu.build"
 }
