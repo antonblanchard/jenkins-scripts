@@ -12,5 +12,5 @@ kernel=sys.argv[1]
 
 print "Testing PAPR virtual IO"
 q = qemu_ubuntu_test(kvm=False, kernel=kernel, cmdline='root=/dev/sda1 rw')
-q.simple_test(timeout=600)
+q.simple_test(timeout=1200)
 q.close()
