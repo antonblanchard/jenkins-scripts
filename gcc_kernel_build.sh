@@ -56,6 +56,6 @@ if [ -n "$TEST_GOLD" ]; then
 	make LD=$LD $PARALLEL modules
 
 	if [ -n "$qemu_testcase" ]; then
-		$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build/vmlinux
+		$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build.gold/vmlinux
 	fi
 fi
