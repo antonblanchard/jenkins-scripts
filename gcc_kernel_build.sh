@@ -49,7 +49,7 @@ if [ -n "$TEST_GOLD" ]; then
 	mkdir -p "$WORKSPACE/linux.build.gold"
 	export KBUILD_OUTPUT="$WORKSPACE/linux.build.gold"
 	# Can't override this via an environment variable
-	LD="$WORKSPACE/install/bin/ld.gold"
+	LD="$WORKSPACE/install/bin/${target}-ld.gold"
 	make LD=$LD $linux_target
 	make LD=$LD $PARALLEL vmlinux
 	make LD=$LD $PARALLEL zImage
