@@ -15,12 +15,13 @@ function finish {
 	rm -rf "$WORKSPACE/gcc.build"
 	rm -rf "$WORKSPACE/install"
 	rm -rf "$WORKSPACE/linux.build"
+	rm -rf "$WORKSPACE/linux.build.gold"
 }
 trap finish EXIT
 
 mkdir -p "$WORKSPACE/binutils.build"
 cd "$WORKSPACE/binutils.build"
-../binutils-gdb/configure --disable-gdb --disable-libdecnumber --disable-readline --disable-sim --prefix="$WORKSPACE/install" --target=$target
+../binutils-gdb/configure --disable-gdb --disable-libdecnumber --disable-readline --disable-sim --enable-gold --prefix="$WORKSPACE/install" --target=$target
 make $PARALLEL
 make install
 
@@ -42,4 +43,19 @@ make $PARALLEL modules
 
 if [ -n "$qemu_testcase" ]; then
 	$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build/vmlinux
+fi
+
+if [ -n "$TEST_GOLD" ]; then
+	mkdir -p "$WORKSPACE/linux.build.gold"
+	export KBUILD_OUTPUT="$WORKSPACE/linux.build.gold"
+	# Can't override this via an environment variable
+	LD="$WORKSPACE/install/bin/ld.gold"
+	make LD=$LD $linux_target
+	make LD=$LD $PARALLEL vmlinux
+	make LD=$LD $PARALLEL zImage
+	make LD=$LD $PARALLEL modules
+
+	if [ -n "$qemu_testcase" ]; then
+		$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build/vmlinux
+	fi
 fi
