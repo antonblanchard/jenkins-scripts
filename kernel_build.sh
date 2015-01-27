@@ -22,5 +22,5 @@ make $PARALLEL zImage
 make $PARALLEL modules
 
 if [ -n "$qemu_testcase" ]; then
-	$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build/vmlinux
+	"$WORKSPACE/$qemu_testcase" "$WORKSPACE/linux.build/vmlinux"
 fi

@@ -42,7 +42,7 @@ make $PARALLEL zImage
 make $PARALLEL modules
 
 if [ -n "$qemu_testcase" ]; then
-	$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build/vmlinux
+	"$WORKSPACE/$qemu_testcase" "$WORKSPACE/linux.build/vmlinux"
 fi
 
 if [ -n "$TEST_GOLD" ]; then
@@ -50,12 +50,12 @@ if [ -n "$TEST_GOLD" ]; then
 	export KBUILD_OUTPUT="$WORKSPACE/linux.build.gold"
 	# Can't override this via an environment variable
 	LD="$WORKSPACE/install/bin/${target}-ld.gold"
-	make LD=$LD $linux_target
-	make LD=$LD $PARALLEL vmlinux
-	make LD=$LD $PARALLEL zImage
-	make LD=$LD $PARALLEL modules
+	make LD="$LD" $linux_target
+	make LD="$LD" $PARALLEL vmlinux
+	make LD="$LD" $PARALLEL zImage
+	make LD="$LD" $PARALLEL modules
 
 	if [ -n "$qemu_testcase" ]; then
-		$WORKSPACE/$qemu_testcase $WORKSPACE/linux.build.gold/vmlinux
+		"$WORKSPACE/$qemu_testcase" "$WORKSPACE/linux.build.gold/vmlinux"
 	fi
 fi
