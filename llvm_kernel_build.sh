@@ -27,9 +27,9 @@ mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 make $linux_target
-make $PARALLEL CC="$WORKSPACE/install/bin/clang" vmlinux
-make $PARALLEL CC="$WORKSPACE/install/bin/clang" zImage
-make $PARALLEL CC="$WORKSPACE/install/bin/clang" modules
+make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" vmlinux
+make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" zImage
+make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" modules
 
 if [ -n "$qemu_testcase" ]; then
 	"$WORKSPACE/$qemu_testcase" "$WORKSPACE/linux.build/vmlinux"
