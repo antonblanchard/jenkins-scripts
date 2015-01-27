@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+ROOT=$(dirname $0)
+
 if [ -n "$BIG_ENDIAN" ]; then
 	target=powerpc64-linux
 	linux_target=pseries_defconfig
@@ -25,7 +27,7 @@ make install
 
 mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
-patch -p1 < "$(dirname $0)/llvmlinux-ppc64.patch"
+patch -p1 < "$ROOT/llvmlinux-ppc64.patch"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 make $linux_target
 make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" vmlinux
