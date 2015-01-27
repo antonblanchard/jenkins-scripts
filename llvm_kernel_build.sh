@@ -8,7 +8,7 @@ else
 	linux_target=pseries_le_defconfig
 fi
 
-PARALLEL=-j$$(nproc)
+PARALLEL=-j$(nproc)
 
 function finish {
 	rm -rf "$WORKSPACE/llvm.build"
