@@ -30,8 +30,8 @@ export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 make $linux_target
 echo CONFIG_PPC_DISABLE_WERROR=y >> "$WORKSPACE/linux.build/.config"
 make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" vmlinux
-make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" zImage
-make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" modules
+#make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" zImage
+#make $PARALLEL CC="$WORKSPACE/install/bin/${target}-clang" modules
 
 if [ -n "$qemu_testcase" ]; then
 	"$WORKSPACE/$qemu_testcase" "$WORKSPACE/linux.build/vmlinux"
