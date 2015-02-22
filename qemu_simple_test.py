@@ -60,6 +60,9 @@ class qemu_simple_test:
 	def start(self):
 		self.child = pexpect.spawn(self.qemu_cmd)
 		self.child.logfile = sys.stdout
+		# We sometimes get failures in close(), bump the timeouts
+		self.child.delayafterclose = 1
+		self.child.delayafterterminate = 1
 
 
 	def expectcheck(self, str, timeout=300):
