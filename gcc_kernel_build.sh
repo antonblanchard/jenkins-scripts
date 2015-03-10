@@ -2,9 +2,11 @@
 
 if [ -n "$BIG_ENDIAN" ]; then
 	target=powerpc64-linux
+	target_32=powerpc-linux
 	linux_target=pseries_defconfig
 else
 	target=powerpc64le-linux
+	target_32=powerpcle-linux
 	linux_target=pseries_le_defconfig
 fi
 
@@ -27,7 +29,7 @@ make install
 
 mkdir -p "$WORKSPACE/gcc.build"
 cd "$WORKSPACE/gcc.build"
-../gcc/configure --prefix="$WORKSPACE/install" --disable-multilib --disable-bootstrap --enable-languages=c --target=$target
+../gcc/configure --prefix="$WORKSPACE/install" --disable-multilib --disable-bootstrap --enable-languages=c --target=$target --enable-targets=$target_32
 # We don't need libgcc for building the kernel, so keep it simple
 make all-gcc $PARALLEL
 make install-gcc
