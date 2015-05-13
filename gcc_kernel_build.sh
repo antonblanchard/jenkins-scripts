@@ -36,6 +36,7 @@ make install-gcc
 
 mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
+patch -p1 < "$WORKSPACE/jenkins-scripts/gcclinux-ppc64.patch"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 export CROSS_COMPILE="$WORKSPACE/install/bin/${target}-"
 make $linux_target
