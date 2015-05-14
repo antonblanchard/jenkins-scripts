@@ -1,0 +1,34 @@
+From 6aee4b5738b2654edb98866e032c703ca101ba6f Mon Sep 17 00:00:00 2001
+From: Anton Blanchard <anton@samba.org>
+Date: Thu, 14 May 2015 13:50:16 +1000
+Subject: [PATCH] powerpc: Align TOC to 256 bytes
+
+Recent toolchains force the TOC to be 256 byte aligned. We need
+to enforce this alignment in our linker script, otherwise pointers
+to our TOC variables (__toc_start, __prom_init_toc_start) could
+be incorrect.
+
+If they are bad, we die a few hundred instructions into boot.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Anton Blanchard <anton@samba.org>
+---
+ arch/powerpc/kernel/vmlinux.lds.S | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/powerpc/kernel/vmlinux.lds.S b/arch/powerpc/kernel/vmlinux.lds.S
+index f096e72..1b5eee1 100644
+--- a/arch/powerpc/kernel/vmlinux.lds.S
++++ b/arch/powerpc/kernel/vmlinux.lds.S
+@@ -213,7 +213,7 @@ SECTIONS
+ 		*(.opd)
+ 	}
+ 
+-	.got : AT(ADDR(.got) - LOAD_OFFSET) {
++	.got : ALIGN(256) AT(ADDR(.got) - LOAD_OFFSET) {
+ 		__toc_start = .;
+ #ifndef CONFIG_RELOCATABLE
+ 		__prom_init_toc_start = .;
+-- 
+2.1.4
+
