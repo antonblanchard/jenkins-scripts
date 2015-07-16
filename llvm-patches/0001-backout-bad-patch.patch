@@ -1,0 +1,37 @@
+Backout commit ee4eb20dbce9 ("Makefile: Fix detection of clang when
+cross-compiling")
+
+diff --git a/Makefile b/Makefile
+index 257ef58..b8523fa 100644
+--- a/Makefile
++++ b/Makefile
+@@ -335,6 +335,15 @@ endif
+ export KBUILD_MODULES KBUILD_BUILTIN
+ export KBUILD_CHECKSRC KBUILD_SRC KBUILD_EXTMOD
+ 
++ifneq ($(CC),)
++ifeq ($(shell $(CC) -v 2>&1 | grep -c "clang version"), 1)
++COMPILER := clang
++else
++COMPILER := gcc
++endif
++export COMPILER
++endif
++
+ # We need some generic definitions (do not try to remake the file).
+ scripts/Kbuild.include: ;
+ include scripts/Kbuild.include
+@@ -661,13 +670,6 @@ endif
+ endif
+ KBUILD_CFLAGS += $(stackp-flag)
+ 
+-ifeq ($(shell $(CC) -v 2>&1 | grep -c "clang version"), 1)
+-COMPILER := clang
+-else
+-COMPILER := gcc
+-endif
+-export COMPILER
+-
+ ifeq ($(COMPILER),clang)
+ KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
+ KBUILD_CPPFLAGS += $(call cc-option,-Wno-unknown-warning-option,)
