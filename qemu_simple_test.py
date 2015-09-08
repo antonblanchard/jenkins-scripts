@@ -35,12 +35,13 @@ class qemu_simple_test:
 
         if cmdline is not None:
             self.qemu_cmd = self.qemu_cmd + ' -append \"%s\"' % cmdline
-            if virtio is True:
-                netdev = 'virtio-net-pci'
-                blockdev = 'virtio'
-            else:
-                netdev = 'spapr-vlan'
-                blockdev = 'scsi'
+
+        if virtio is True:
+            netdev = 'virtio-net-pci'
+            blockdev = 'virtio'
+        else:
+            netdev = 'spapr-vlan'
+            blockdev = 'scsi'
 
         self.qemu_cmd = self.qemu_cmd + ' -netdev type=%s,id=net0 \
             -device %s,netdev=net0' % ('user', netdev)
