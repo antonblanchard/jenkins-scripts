@@ -19,7 +19,7 @@ trap finish EXIT
 
 mkdir -p "$WORKSPACE/llvm.build"
 cd "$WORKSPACE/llvm.build"
-cmake -DCMAKE_INSTALL_PREFIX="$WORKSPACE/install" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_TARGETS_TO_BUILD=PowerPC ../llvm
+cmake -DCMAKE_INSTALL_PREFIX="$WORKSPACE/install" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=PowerPC ../llvm
 make $PARALLEL
 make install
 
