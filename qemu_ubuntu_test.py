@@ -26,6 +26,9 @@ class qemu_ubuntu_test(qemu_simple_test):
             urllib.urlretrieve(imageurl, image)
 
     def wait_for_login(self, timeout=300):
+        # We need to wait for the cloud tools to finish before we can log in
+        self.expectcheck('Cloud-init v. [0-9.]+ finished', timeout=timeout)
+        self.child.sendline('')
         self.expectcheck('ubuntu login:', timeout=timeout)
 
     def wait_for_prompt(self, timeout=300):
