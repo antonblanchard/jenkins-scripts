@@ -98,4 +98,6 @@ class qemu_simple_test:
         self.child.interact()
 
     def close(self):
+        # On a busy box it might take a while for QEMU to terminate
+        self.child.delayafterterminate = 1.0
         self.child.close()
