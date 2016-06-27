@@ -11,7 +11,7 @@ class qemu_ubuntu_test(qemu_simple_test):
                  cmdline=None, image='xenial-server-cloudimg-ppc64el-disk1.img',
                  image_size='16G', image_cow=True, seed='my-seed.img',
                  seedurl='http://ozlabs.org/~anton/my-seed.img',
-                 imageurl='http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-ppc64el-disk1.img'):
+                 imageurl='http://cloud-images.ubuntu.com/yakkety/current/yakkety-server-cloudimg-ppc64el.img'):
 
         qemu_simple_test.__init__(self, qemu=qemu, memory=memory, cores=cores,
                                   threads=threads, kvm=kvm, virtio=virtio,
