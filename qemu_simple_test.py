@@ -66,6 +66,7 @@ class qemu_simple_test:
                 -drive file=%s,if=%s' % (seed, blockdev)
 
     def start(self):
+        print self.qemu_cmd
         self.child = pexpect.spawn(self.qemu_cmd)
         self.child.logfile = sys.stdout
 
