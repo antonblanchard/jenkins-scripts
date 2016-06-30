@@ -30,7 +30,7 @@ class qemu_simple_test:
         if kernel is not None:
             self.qemu_cmd = self.qemu_cmd + ' -kernel %s' % kernel
 
-        if initrd is not None:
+        if kernel is not None and initrd is not None:
             self.qemu_cmd = self.qemu_cmd + ' -initrd %s' % initrd
 
         if cmdline is not None:
