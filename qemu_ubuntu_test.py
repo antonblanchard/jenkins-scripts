@@ -9,7 +9,7 @@ class qemu_ubuntu_test(qemu_simple_test):
     def __init__(self, qemu='qemu-system-ppc64', memory='4G', cores=1,
                  threads=1, kvm=False, virtio=False, kernel=None,
                  initrd='initrd.img-4.4.0-24-generic',
-                 cmdline=None, image='xenial-server-cloudimg-ppc64el-disk1.img',
+                 cmdline=None, image='yakkety-server-cloudimg-ppc64el.img',
                  image_size='16G', image_cow=True, seed='my-seed.img',
                  seedurl='http://ozlabs.org/~anton/my-seed.img',
                  imageurl='http://cloud-images.ubuntu.com/yakkety/current/yakkety-server-cloudimg-ppc64el.img',
