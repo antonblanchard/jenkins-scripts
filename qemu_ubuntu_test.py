@@ -69,3 +69,7 @@ class qemu_ubuntu_test(qemu_simple_test):
         self.child.sendline('md5sum datafile')
         self.child.expect('2a9981457d46bf85eba3f81728159f84', timeout=timeout)
         self.wait_for_prompt(timeout=timeout)
+
+        # Check dmesg for warn level or greater messages. Ignore systemd.
+        self.child.sendline('dmesg --level=warn,err,crit,alert,emerg | grep -v systemd')
+        self.wait_for_prompt(timeout=timeout)
