@@ -39,6 +39,7 @@ cd "$WORKSPACE/linux"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 export CROSS_COMPILE="$WORKSPACE/install/bin/${target}-"
 make $linux_target
+echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build/.config"
 make $PARALLEL vmlinux
 make $PARALLEL zImage
 make $PARALLEL modules
@@ -53,6 +54,7 @@ if [ -n "$TEST_GOLD" ]; then
 	# Can't override this via an environment variable
 	LD="$WORKSPACE/install/bin/${target}-ld.gold"
 	make LD="$LD" $linux_target
+	echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build.gold/.config"
 	make LD="$LD" $PARALLEL vmlinux
 	make LD="$LD" $PARALLEL zImage
 	make LD="$LD" $PARALLEL modules

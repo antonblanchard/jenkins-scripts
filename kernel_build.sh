@@ -17,6 +17,7 @@ mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 make $linux_target
+echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build/.config"
 make $PARALLEL vmlinux
 make $PARALLEL zImage
 make $PARALLEL modules
