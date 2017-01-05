@@ -11,7 +11,7 @@ if len(sys.argv) != 3:
 kernel = sys.argv[1]
 iterations = int(sys.argv[2])
 
-q = qemu_ubuntu_test(kvm=True, cores=8, threads=8, kernel=kernel,
+q = qemu_ubuntu_test(kvm='HV', cores=8, threads=8, kernel=kernel,
                      cmdline='root=/dev/sda1 rw', virtio=True)
 q.boot()
 

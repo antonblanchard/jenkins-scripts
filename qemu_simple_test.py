@@ -14,7 +14,7 @@ import os
 
 
 class qemu_simple_test:
-    base_options = '-M pseries -cpu POWER8 -nographic -vga none'
+    base_options = '-cpu POWER8 -nographic -vga none'
 
     def __init__(self, qemu='qemu-system-ppc64', memory='4G', cores=1,
                  threads=1, kvm=False, virtio=False, kernel=None, initrd=None,
@@ -24,8 +24,14 @@ class qemu_simple_test:
         self.qemu_cmd = '%s %s -m %s -smp cores=%d,threads=%d' % (
             qemu, self.base_options, memory, cores, threads)
 
-        if kvm is True:
-            self.qemu_cmd = self.qemu_cmd + ' -enable-kvm'
+        if kvm is false:
+            self.qemu_cmd = self.qemu_cmd + '-M pseries'
+        elif kvm is 'HV':
+            self.qemu_cmd = self.qemu_cmd + '-M pseries,accel=kvm,kvm-type=HV'
+        elif kvm is 'PR':
+            self.qemu_cmd = self.qemu_cmd + '-M pseries,accel=kvm,kvm-type=PR'
+        else:
+            raise Exception('Invalid kvm option')
 
         if kernel is not None:
             self.qemu_cmd = self.qemu_cmd + ' -kernel %s' % kernel
