@@ -24,7 +24,7 @@ class qemu_simple_test:
         self.qemu_cmd = '%s %s -m %s -smp cores=%d,threads=%d' % (
             qemu, self.base_options, memory, cores, threads)
 
-        if kvm is false:
+        if kvm is False:
             self.qemu_cmd = self.qemu_cmd + '-M pseries'
         elif kvm is 'HV':
             self.qemu_cmd = self.qemu_cmd + '-M pseries,accel=kvm,kvm-type=HV'
