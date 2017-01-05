@@ -25,11 +25,11 @@ class qemu_simple_test:
             qemu, self.base_options, memory, cores, threads)
 
         if kvm is False:
-            self.qemu_cmd = self.qemu_cmd + '-M pseries'
+            self.qemu_cmd = self.qemu_cmd + ' -M pseries'
         elif kvm is 'HV':
-            self.qemu_cmd = self.qemu_cmd + '-M pseries,accel=kvm,kvm-type=HV'
+            self.qemu_cmd = self.qemu_cmd + ' -M pseries,accel=kvm,kvm-type=HV'
         elif kvm is 'PR':
-            self.qemu_cmd = self.qemu_cmd + '-M pseries,accel=kvm,kvm-type=PR'
+            self.qemu_cmd = self.qemu_cmd + ' -M pseries,accel=kvm,kvm-type=PR'
         else:
             raise Exception('Invalid kvm option')
 
