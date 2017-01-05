@@ -22,7 +22,7 @@ q.simple_test(timeout=120)
 q.close()
 
 print "Testing SMP"
-q = qemu_ubuntu_test(kvm='PR', cores=8, threads=8, kernel=kernel,
+q = qemu_ubuntu_test(kvm='PR', cores=8, threads=1, kernel=kernel,
                      cmdline='root=/dev/sda1 rw')
 q.simple_test(timeout=120)
 q.close()
