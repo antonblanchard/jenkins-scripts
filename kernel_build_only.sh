@@ -3,6 +3,8 @@
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 rm -rf $KBUILD_OUTPUT
 
+cd "$WORKSPACE/linux"
+
 make pseries_le_defconfig
 echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build/.config"
 # Build virtio into kernel  
