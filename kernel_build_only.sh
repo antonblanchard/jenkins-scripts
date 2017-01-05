@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
-rm -rf $KBUILD_OUTPUT
+export OUTPUT="$WORKSPACE/perf.build"
+rm -rf "$KBUILD_OUTPUT" "$WORKSPACE/install" "$OUTPUT"
 
 cd "$WORKSPACE/linux"
 
@@ -16,7 +17,7 @@ CONFIG_SCSI_VIRTIO=y
 CONFIG_VIRTIO_NET=y 
 EOF
 
-make -j32
+make -j$(nproc)
 
 make INSTALL_MOD_PATH="$WORKSPACE/install" modules_install
 ( cd "$WORKSPACE/install" ; find . | cpio -oVH newc | gzip -9 > ../modules.cpio.gz )
@@ -25,5 +26,6 @@ cd tools/perf
 make
 
 # Reduce on disk space
-cp -f $WORKSPACE/linux.build/vmlinux $WORKSPACE/vmlinux
-rm -rf "$KBUILD_OUTPUT" "$WORKSPACE/install"
+cp -f "$KBUILD_OUTPUT/vmlinux" $WORKSPACE/vmlinux
+cp -f "$OUTPUT/perf" "$WORKSPACE/perf"
+rm -rf "$KBUILD_OUTPUT" "$WORKSPACE/install" "$OUTPUT"
