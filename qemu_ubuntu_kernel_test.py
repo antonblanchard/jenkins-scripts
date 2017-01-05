@@ -16,7 +16,7 @@ q.simple_test(timeout=120)
 q.close()
 
 print "Testing virtio virtual IO"
-q = qemu_ubuntu_test(kvm='PR', kernel=kernel, cmdline='root=/dev/vda1 rw',
+q = qemu_ubuntu_test(kvm='PR', kernel=kernel, cmdline='root=/dev/vdb1 rw',
                      virtio=True)
 q.simple_test(timeout=120)
 q.close()
