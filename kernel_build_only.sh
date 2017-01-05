@@ -22,6 +22,7 @@ make -j$(nproc)
 make INSTALL_MOD_PATH="$WORKSPACE/install" modules_install
 ( cd "$WORKSPACE/install" ; find . | cpio -oVH newc | gzip -9 > ../modules.cpio.gz )
 
+mkdir "$OUTPUT"
 cd tools/perf
 make
 
