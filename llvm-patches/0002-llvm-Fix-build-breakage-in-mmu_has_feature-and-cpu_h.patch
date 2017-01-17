@@ -1,0 +1,49 @@
+From f8a2f27a0a1a3bc9ee03709e4bc0a36cfdc7316e Mon Sep 17 00:00:00 2001
+From: Anton Blanchard <anton@samba.org>
+Date: Wed, 18 Jan 2017 09:03:35 +1100
+Subject: [PATCH 2/4] llvm: Fix build breakage in mmu_has_feature() and
+ cpu_has_feature()
+
+We added:
+
+	BUILD_BUG_ON(!__builtin_constant_p(feature));
+
+to verify that mmu_has_feature() and cpu_has_feature() is always passed
+a constant. Unfortunately LLVM does not manage to work it out, and we
+end up with a broken build. Remove it for now.
+
+Signed-off-by: Anton Blanchard <anton@samba.org>
+---
+ arch/powerpc/include/asm/cpu_has_feature.h | 2 --
+ arch/powerpc/include/asm/mmu.h             | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/arch/powerpc/include/asm/cpu_has_feature.h b/arch/powerpc/include/asm/cpu_has_feature.h
+index b312b15..b92903c 100644
+--- a/arch/powerpc/include/asm/cpu_has_feature.h
++++ b/arch/powerpc/include/asm/cpu_has_feature.h
+@@ -23,8 +23,6 @@ static __always_inline bool cpu_has_feature(unsigned long feature)
+ {
+ 	int i;
+ 
+-	BUILD_BUG_ON(!__builtin_constant_p(feature));
+-
+ #ifdef CONFIG_JUMP_LABEL_FEATURE_CHECK_DEBUG
+ 	if (!static_key_initialized) {
+ 		printk("Warning! cpu_has_feature() used prior to jump label init!\n");
+diff --git a/arch/powerpc/include/asm/mmu.h b/arch/powerpc/include/asm/mmu.h
+index 09304d2..d3b0912 100644
+--- a/arch/powerpc/include/asm/mmu.h
++++ b/arch/powerpc/include/asm/mmu.h
+@@ -154,8 +154,6 @@ static __always_inline bool mmu_has_feature(unsigned long feature)
+ {
+ 	int i;
+ 
+-	BUILD_BUG_ON(!__builtin_constant_p(feature));
+-
+ #ifdef CONFIG_JUMP_LABEL_FEATURE_CHECK_DEBUG
+ 	if (!static_key_initialized) {
+ 		printk("Warning! mmu_has_feature() used prior to jump label init!\n");
+-- 
+2.9.3
+

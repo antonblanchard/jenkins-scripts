@@ -1,0 +1,49 @@
+From 60aabfba59896b3e802c6e2d2f3b0637cd2f3a88 Mon Sep 17 00:00:00 2001
+From: Anton Blanchard <anton@samba.org>
+Date: Wed, 18 Jan 2017 09:20:19 +1100
+Subject: [PATCH 4/4] llvm: Work around llvm issue when calling gas
+
+llvm doesn't pass any CPU target information when calling gas. Details
+are at:
+
+https://llvm.org/bugs/show_bug.cgi?id=31423
+
+This causes a build breakage with the new form of the tlbiel
+instruction. Open code the tlbiel with .long to work around it.
+
+Signed-off-by: Anton Blanchard <anton@samba.org>
+---
+ arch/powerpc/mm/hash_native_64.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/arch/powerpc/mm/hash_native_64.c b/arch/powerpc/mm/hash_native_64.c
+index cc33260..ad9fd52 100644
+--- a/arch/powerpc/mm/hash_native_64.c
++++ b/arch/powerpc/mm/hash_native_64.c
+@@ -123,9 +123,8 @@ static inline void __tlbiel(unsigned long vpn, int psize, int apsize, int ssize)
+ 		va |= ssize << 8;
+ 		sllp = get_sllp_encoding(apsize);
+ 		va |= sllp << 5;
+-		asm volatile(ASM_FTR_IFSET("tlbiel %0", "tlbiel %0,0", %1)
+-			     : : "r" (va), "i" (CPU_FTR_ARCH_206)
+-			     : "memory");
++		asm volatile(".long 0x7c000224 | (%0 << 11) | (0 << 21)"
++			     : : "r"(va) : "memory");
+ 		break;
+ 	default:
+ 		/* We need 14 to 14 + i bits of va */
+@@ -142,9 +141,8 @@ static inline void __tlbiel(unsigned long vpn, int psize, int apsize, int ssize)
+ 		 */
+ 		va |= (vpn & 0xfe);
+ 		va |= 1; /* L */
+-		asm volatile(ASM_FTR_IFSET("tlbiel %0", "tlbiel %0,1", %1)
+-			     : : "r" (va), "i" (CPU_FTR_ARCH_206)
+-			     : "memory");
++		asm volatile(".long 0x7c000224 | (%0 << 11) | (1 << 21)"
++			     : : "r"(va) : "memory");
+ 		break;
+ 	}
+ 
+-- 
+2.9.3
+

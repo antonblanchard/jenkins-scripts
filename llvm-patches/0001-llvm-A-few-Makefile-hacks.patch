@@ -1,34 +1,36 @@
-From 2d9418ac19a54f7e714c9bdc8803457c205289e8 Mon Sep 17 00:00:00 2001
+From 56c793be67860439436df342e1dd7119d65ad291 Mon Sep 17 00:00:00 2001
 From: Anton Blanchard <anton@samba.org>
-Date: Mon, 25 May 2015 10:58:02 +1000
-Subject: [PATCH 6/6] llvm: A few Makefile hacks
+Date: Wed, 18 Jan 2017 09:02:26 +1100
+Subject: [PATCH 1/4] llvm: A few Makefile hacks
 
 llvm accepts -fno-delete-null-pointer-checks but complains about it.
 Wrap it to avoid getting enormous numbers of warnings.
 
 Also add -no-integrated-as to disable the llvm integrated assembler,
 lots of stuff currently relies on gas.
+
+Signed-off-by: Anton Blanchard <anton@samba.org>
 ---
  Makefile | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/Makefile b/Makefile
-index eae539d..451290f 100644
+index 247430a..b742354 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -609,7 +609,12 @@ all: vmlinux
- 
+@@ -619,7 +619,12 @@ ARCH_AFLAGS :=
+ ARCH_CFLAGS :=
  include arch/$(SRCARCH)/Makefile
  
-+ifneq ($(COMPILER),clang)
- KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
-+endif
-+
 +KBUILD_CFLAGS  += $(call cc-option,-no-integrated-as,)
 +KBUILD_AFLAGS  += $(call cc-option,-no-integrated-as,)
++
++ifneq ($(cc-name),clang)
+ KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
++endif
+ KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
  
- ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
- KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+ ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
 -- 
-2.1.4
+2.9.3
 
