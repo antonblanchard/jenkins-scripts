@@ -10,6 +10,10 @@ function finish {
 }
 trap finish EXIT
 
+# Use dtc submodule
+cd "$WORKSPACE/qemu"
+git submodule update --init dtc
+
 mkdir -p "$WORKSPACE/qemu.build"
 
 cd "$WORKSPACE/qemu.build"
