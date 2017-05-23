@@ -11,11 +11,21 @@ if len(sys.argv) != 2:
 qemu = sys.argv[1]
 
 print "Testing PAPR virtual IO"
-q = qemu_ubuntu_test(qemu=qemu, kvm=False)
-q.simple_test(timeout=1200)
+q = qemu_ubuntu_test(qemu=qemu, kvm='PR')
+q.simple_test(timeout=120)
 q.close()
 
 print "Testing virtio virtual IO"
-q = qemu_ubuntu_test(qemu=qemu, kvm=False, virtio=True)
+q = qemu_ubuntu_test(qemu=qemu, kvm='PR', virtio=True)
+q.simple_test(timeout=120)
+q.close()
+
+print "Testing SMP"
+q = qemu_ubuntu_test(qemu=qemu, kvm='PR', cores=8, threads=1)
+q.simple_test(timeout=120)
+q.close()
+
+print "Testing QEMU full emulation"
+q = qemu_ubuntu_test(qemu=qemu, kvm=False)
 q.simple_test(timeout=1200)
 q.close()
