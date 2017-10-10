@@ -25,10 +25,10 @@ make install
 
 mkdir -p "$WORKSPACE/linux.build"
 cd "$WORKSPACE/linux"
-for i in $WORKSPACE/jenkins-scripts/llvm-patches/*
-do
-	patch -p1 < $i
-done
+#for i in $WORKSPACE/jenkins-scripts/llvm-patches/*
+#do
+	#patch -p1 < $i
+#done
 export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 make $linux_target
 echo CONFIG_PPC_DISABLE_WERROR=y >> "$WORKSPACE/linux.build/.config"
