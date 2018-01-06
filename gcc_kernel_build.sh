@@ -40,6 +40,7 @@ export KBUILD_OUTPUT="$WORKSPACE/linux.build"
 export CROSS_COMPILE="$WORKSPACE/install/bin/${target}-"
 make $linux_target
 echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build/.config"
+echo CONFIG_PPC_DISABLE_WERROR=y >> "$WORKSPACE/linux.build/.config"
 make $PARALLEL vmlinux
 make $PARALLEL zImage
 make $PARALLEL modules
