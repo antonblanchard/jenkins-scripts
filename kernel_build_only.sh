@@ -10,6 +10,7 @@ make pseries_le_defconfig
 echo CONFIG_ISO9660_FS=y >> "$WORKSPACE/linux.build/.config"
 # Build virtio into kernel
 cat << EOF >> "$WORKSPACE/linux.build/.config"
+CONFIG_VIRTIO_MENU=y
 CONFIG_VIRTIO=y
 CONFIG_VIRTIO_PCI=y
 CONFIG_VIRTIO_BLK=y
