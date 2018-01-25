@@ -29,6 +29,7 @@ CONFIG_SCSI_VIRTIO=y
 CONFIG_VIRTIO_NET=y
 EOF
 
+make oldconfig
 make $PARALLEL vmlinux
 make $PARALLEL zImage
 make $PARALLEL modules

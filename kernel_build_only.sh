@@ -18,6 +18,7 @@ CONFIG_SCSI_VIRTIO=y
 CONFIG_VIRTIO_NET=y
 EOF
 
+make oldconfig
 make -j$(nproc)
 
 make INSTALL_MOD_PATH="$WORKSPACE/install" modules_install
