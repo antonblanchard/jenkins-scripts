@@ -14,7 +14,7 @@ import os
 
 
 class qemu_simple_test:
-    base_options = '-cpu POWER8 -nographic -vga none'
+    base_options = '-cpu POWER8 -nographic -vga none -device virtio-rng-pci'
 
     def __init__(self, qemu='qemu-system-ppc64', memory='4G', cores=1,
                  threads=1, kvm=False, virtio=False, kernel=None, initrd=None,
