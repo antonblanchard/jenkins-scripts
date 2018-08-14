@@ -8,12 +8,12 @@ import urllib
 class qemu_ubuntu_test(qemu_simple_test):
     def __init__(self, qemu='qemu-system-ppc64', memory='4G', cores=1,
                  threads=1, kvm=False, virtio=False, kernel=None,
-                 initrd='initrd.img-4.4.0-24-generic',
-                 cmdline=None, image='yakkety-server-cloudimg-ppc64el.img',
+                 initrd=None,
+                 cmdline=None, image='bionic-server-cloudimg-ppc64el.img',
                  image_size='16G', image_cow=True, seed='my-seed.img',
-                 seedurl='http://ozlabs.org/~anton/my-seed.img',
-                 imageurl='http://cloud-images.ubuntu.com/yakkety/current/yakkety-server-cloudimg-ppc64el.img',
-                 initrdurl='http://ozlabs.org/~anton/initrd.img-4.4.0-24-generic'):
+                 seedurl='https://ozlabs.org/~anton/my-seed.img',
+                 imageurl='https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-ppc64el.img',
+                 initrdurl=None):
 
         qemu_simple_test.__init__(self, qemu=qemu, memory=memory, cores=cores,
                                   threads=threads, kvm=kvm, virtio=virtio,
@@ -27,7 +27,7 @@ class qemu_ubuntu_test(qemu_simple_test):
         if os.path.isfile(image) is False:
             urllib.urlretrieve(imageurl, image)
 
-        if os.path.isfile(initrd) is False:
+        if initrd and os.path.isfile(initrd) is False:
             urllib.urlretrieve(initrdurl, initrd)
 
     def wait_for_login(self, timeout=300):
